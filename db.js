@@ -8,6 +8,8 @@ const db = low(adapter);
 
 const timersDb = db.get('timers');
 
+module.exports.getAllTimers = () => timersDb.value();
+
 module.exports.addTimer = timer => {
   const newTimer = {
     id: shortId.generate(),

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const db = require('../db');
+const { WSS } = require('../index');
 
 router.get('/', getTimers);
 router.get('/:id', getTimer);
@@ -34,6 +35,7 @@ function updateTimer(req, res) {
     if (db.getTimerById(id)) {
       db.updateTimer(timer);
       res.sendStatus(200);
+      WSS.triggerClientsToUpdateData();
     }
     res.sendStatus(404);
   }
@@ -48,6 +50,7 @@ function addTimer(request, response) {
     const timer = { title, minutes, seconds };
     db.addTimer(timer);
     response.sendStatus(200);
+    WSS.triggerClientsToUpdateData();
   }
 }
 
@@ -59,14 +62,15 @@ function deleteTimer(request, response) {
   } else if (id) {
     db.deleteTimer(id);
     response.sendStatus(200);
+    WSS.triggerClientsToUpdateData();
   }
 }
 
 function deleteAllTimers(req, res) {
   db.deleteAllTimers();
   res.sendStatus(200);
+  WSS.triggerClientsToUpdateData();
 }
-
 
 function deleteTimerById(request, response) {
   const { id } = request.params;
@@ -74,6 +78,8 @@ function deleteTimerById(request, response) {
     response.sendStatus(400);
   } else {
     db.deleteTimer({ id });
+    response.sendStatus(200);
+    WSS.triggerClientsToUpdateData();
   }
 }
 

@@ -9,6 +9,7 @@ const WebsocketServer = require('./socket');
 
 const app = express();
 const WSS = new WebsocketServer(5001);
+module.exports.WSS = WSS;
 
 /**
  * Express API routes

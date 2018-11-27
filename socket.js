@@ -1,21 +1,26 @@
 const WebSocket = require('ws');
+const DB = require('./db');
 
 class WebsocketServer {
   constructor(port) {
     this.server = new WebSocket.Server({ port });
-    this.server.on('connection', socket => {
-      socket.onmessage = message => {
-        console.log(`Message: ${message.data}`);
-      };
-      socket.send(JSON.stringify({hello: 'brother'}))
-    });
+    this.server.addListener('connection', function connection(socket) {
+      socket.send('Connected succesfully');
 
-    this.server.on('close', listener => {
-      console.log(`Connection closed: ${listener}`);
+      socket.on('message', function incoming(message) {
+        switch(message) {
+          
+        }
+      });
     });
-    this.server.on('message', message => {
-      
-    })
+  }
+
+  triggerClientsToUpdateData() {
+    this.server.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(DB.getAllTimers());
+      }
+    });
   }
 }
 
