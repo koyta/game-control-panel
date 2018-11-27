@@ -1,0 +1,10 @@
+# NPM
+**/node_modules/*
+
+# IDEA
+.idea
+
+# Parcel cache
+/client/.cache
+# Build
+/client/dist

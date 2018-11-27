@@ -1,0 +1,26 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "dependencies": {
+    "@material-ui/core": "^3.5.1",
+    "@material-ui/icons": "^3.0.1",
+    "axios": "^0.18.0",
+    "babel-core": "^6.26.3",
+    "classnames": "^2.2.6",
+    "immutability-helper": "^2.8.1",
+    "moment": "^2.22.2",
+    "parcel": "^1.10.3",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "styled-components": "^4.1.1"
+  },
+  "scripts": {
+    "parcel:dev": "./node_modules/.bin/parcel index.html",
+    "parcel:watch": "./node_modules/.bin/parcel watch index.html",
+    "parcel:build": "./node_modules/.bin/parcel build index.html"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0"
+  }
+}
