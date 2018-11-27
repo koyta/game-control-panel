@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'Open Sans Regular';
+    src: url('./src/assets/fonts/OpenSans-Regular.ttf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Open Sans Bold';
+    src: url('./src/assets/fonts/OpenSans-Bold.ttf') format('opentype');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Montserrat Regular';
+    src: url('./src/assets/fonts/Montserrat-Regular.ttf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Montserrat Bold';
+    src: url('./src/assets/fonts/Montserrat-Bold.ttf') format('opentype');
+    font-weight: 700;
+}
+
+body {
+    font-family: 'Open Sans Regular', Arial, sans-serif;
+    font-weight: 400;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat Bold', Arial, sans-serif;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}

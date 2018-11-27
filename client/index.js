@@ -1,11 +1,17 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import App from './src/App';
 import './index.css';
-import 'antd/dist/antd.min.css';
+
+import store from './src/modules/store';
 
 render(
-    <BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
       <App/>
-    </BrowserRouter>, document.getElementById('app'));
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById('app'),
+);

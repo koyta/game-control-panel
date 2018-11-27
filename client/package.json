@@ -2,23 +2,32 @@
   "name": "client",
   "version": "1.0.0",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
-    "babel-core": "^6.26.3",
+    "babel-core": "^7.0.0-bridge.0",
     "classnames": "^2.2.6",
+    "emotion": "^9.2.12",
     "immutability-helper": "^2.8.1",
     "moment": "^2.22.2",
     "parcel": "^1.10.3",
+    "prettier": "^1.15.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-saga": "^0.16.2",
+    "store": "^2.0.12",
     "styled-components": "^4.1.1"
   },
   "scripts": {
     "parcel:dev": "./node_modules/.bin/parcel index.html",
     "parcel:watch": "./node_modules/.bin/parcel watch index.html",
-    "parcel:build": "./node_modules/.bin/parcel build index.html"
+    "parcel:build": "./node_modules/.bin/parcel build index.html",
+    "prettify": "prettier --write 'src/**/*.js'"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0"

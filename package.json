@@ -5,6 +5,7 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "lowdb": "^1.0.0",
@@ -17,7 +18,9 @@
     "ws": "^6.1.2"
   },
   "scripts": {
-    "server": "nodemon --ignore data.json ./index.js"
+    "server": "nodemon --ignore data.json ./index.js",
+    "client": "cd client && npm run parcel:dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "nodemonConfig": {
     "ignore": [
