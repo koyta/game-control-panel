@@ -6,12 +6,6 @@ class WebsocketServer {
     this.server = new WebSocket.Server({ port });
     this.server.addListener('connection', function connection(socket) {
       socket.send('Connected succesfully');
-
-      socket.on('message', function incoming(message) {
-        switch(message) {
-          
-        }
-      });
     });
   }
 
