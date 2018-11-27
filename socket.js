@@ -4,7 +4,7 @@ const DB = require('./db');
 class WebsocketServer {
   constructor(port) {
     this.server = new WebSocket.Server({ port });
-    this.server.addListener('connection', function connection(socket) {
+    this.server.on('connection', function connection(socket) {
       socket.send('Connected succesfully');
     });
   }
@@ -12,7 +12,7 @@ class WebsocketServer {
   triggerClientsToUpdateData() {
     this.server.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(DB.getAllTimers());
+        client.send(JSON.stringify(DB.getAllTimers()));
       }
     });
   }

@@ -12,7 +12,7 @@ router.post('', addTimer);
 router.patch('/:id', updateTimer);
 
 function getTimers(request, response) {
-  const timers = db.db.get('timers').value();
+  const timers = db.getAllTimers();
   response.send(timers);
 }
 
