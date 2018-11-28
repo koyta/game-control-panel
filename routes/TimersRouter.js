@@ -72,15 +72,4 @@ function deleteAllTimers(req, res) {
   WSS.triggerClientsToUpdateData();
 }
 
-function deleteTimerById(request, response) {
-  const { id } = request.params;
-  if (!id) {
-    response.sendStatus(400);
-  } else {
-    db.deleteTimer({ id });
-    response.sendStatus(200);
-    WSS.triggerClientsToUpdateData();
-  }
-}
-
 module.exports = router;
