@@ -29,8 +29,20 @@ class API {
     });
   };
 
-  removeTimer = id => {
+  deleteTimer = id => {
     return axios.delete(`/timers/${id}`);
+  };
+
+  clearTimers = () => {
+    return axios.delete(`/timers`);
+  };
+
+  updateTimer = id => {
+    return axios.patch(`/timers/${id}`, {
+      title,
+      minutes,
+      seconds,
+    });
   };
 }
 

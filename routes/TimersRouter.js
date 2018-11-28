@@ -8,7 +8,7 @@ router.get('/', getTimers);
 router.get('/:id', getTimer);
 router.delete('/:id', deleteTimer);
 router.delete('/', deleteAllTimers);
-router.post('', addTimer);
+router.post('/', addTimer);
 router.patch('/:id', updateTimer);
 
 function getTimers(request, response) {
