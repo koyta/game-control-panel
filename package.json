@@ -20,7 +20,8 @@
   "scripts": {
     "server": "nodemon --ignore data.json ./index.js",
     "client": "cd client && npm run parcel:dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "production": "cd client && npm run parcel:build && cd ../ && npm run server"
   },
   "nodemonConfig": {
     "ignore": [
