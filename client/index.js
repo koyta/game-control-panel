@@ -2,16 +2,17 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import configureStore from './src/modules/store';
 import App from './src/App';
 import './index.css';
 
-import store from './src/modules/store';
+const store = configureStore();
 
 render(
-  <BrowserRouter>
-    <Provider store={store}>
+  <Provider store={store}>
+    <BrowserRouter>
       <App/>
-    </Provider>
-  </BrowserRouter>,
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('app'),
 );

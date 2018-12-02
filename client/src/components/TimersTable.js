@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { css } from 'emotion';
-import cx from 'classnames';
 // MaterialUI
 import Table from '@material-ui/core/Table/Table';
 import TableHead from '@material-ui/core/TableHead/TableHead';
@@ -10,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableBody from '@material-ui/core/TableBody/TableBody';
 import Button from '@material-ui/core/Button/Button';
 import FormattedTimerValue from './FormattedTimerValue';
+import { removeTimer, setEditTimer } from '../modules/actions/timers';
 
 // Components
 
@@ -60,13 +60,13 @@ class TimersTable extends Component {
                       variant="outlined"
                       size="small"
                       color="primary"
-                      onClick={() => this.props.editTimer(index)}
+                      onClick={() => this.props.setEditTimer(index)}
                       style={{ marginRight: 10 }}
                     >
                       Изменить таймер
                     </Button>
                     <Button variant="text" color="secondary" size="small"
-                            onClick={() => this.props.removeTimer(index)}>
+                            onClick={() => this.props.removeTimer(timer)}>
                       Удалить таймер
                     </Button>
                   </TableCell>
@@ -80,4 +80,16 @@ class TimersTable extends Component {
   }
 }
 
-export default TimersTable;
+const mapStateToProps = state => ({
+  timers: state.timers.timers,
+});
+
+const mapDispatchToProps = {
+  setEditTimer,
+  removeTimer,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TimersTable);

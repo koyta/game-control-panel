@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField/TextField';
+import { addTimer, updateTimer } from '../modules/actions/timers';
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +30,7 @@ class Form extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.editTimerIndex !== this.props.editTimerIndex) {
-      if (this.props.editTimerIndex != null) {
+      if (this.props.editTimerIndex !== null) {
         this.setState({
           title: this.props.timers[this.props.editTimerIndex].title,
           minutes: this.props.timers[this.props.editTimerIndex].minutes,
@@ -38,9 +40,9 @@ class Form extends React.Component {
     }
   }
 
-  addTimer = () => {
+  handleSubmit = () => {
     const { title, minutes, seconds } = this.state;
-    const { editTimerIndex, updateTimer, handleAddTimer } = this.props;
+    const { editTimerIndex, updateTimer, addTimer, timers } = this.props;
 
     if (!title || !minutes || !seconds) return null;
 
@@ -50,10 +52,11 @@ class Form extends React.Component {
       seconds,
     };
 
-    if (editTimerIndex !== null) {
-      updateTimer(newTimer, editTimerIndex);
+    if (editTimerIndex !== null && editTimerIndex >= 0 && editTimerIndex <
+      timers.length) {
+      updateTimer({ id: timers[editTimerIndex].id, ...newTimer });
     } else {
-      handleAddTimer(newTimer);
+      addTimer(newTimer);
     }
 
     this.resetInputs();
@@ -74,11 +77,9 @@ class Form extends React.Component {
     });
   };
 
-  handleDurationChange = momentObject => {
-    console.log(momentObject);
-  };
-
   render() {
+    const { editTimerIndex } = this.props;
+
     return (
       <Container>
         <div>
@@ -112,7 +113,8 @@ class Form extends React.Component {
           </ItemContainer>
         </div>
         <ItemContainer>
-          <Button variant="contained" color="primary" onClick={this.addTimer}>
+          <Button variant="contained" color="primary"
+                  onClick={this.handleSubmit}>
             {this.props.editTimerIndex != null ?
               'Изменить таймер' :
               'Добавить таймер'}
@@ -123,4 +125,17 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+const mapStateToProps = state => ({
+  timers: state.timers.timers,
+  editTimerIndex: state.timers.editTimerIndex,
+});
+
+const mapDispatchToProps = {
+  updateTimer,
+  addTimer,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form);

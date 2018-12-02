@@ -1,114 +1,94 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import store from 'store';
-import update from 'immutability-helper';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+// Utils
+import Api from './utils/API';
 // Components
-import Panel from './components/Panel';
-import View from './components/View';
+import Panel from './pages/Panel';
+import View from './pages/View';
+// Actions
+import { fetchTimers, setTimers, timerStart } from './modules/actions/timers';
+import RWebSocket from 'reconnecting-websocket';
+// Styles
+import './index.sass';
+
+export const API = new Api();
+
+const ws = new RWebSocket('ws://localhost:5001', null, {
+  debug: false,
+});
 
 class App extends Component {
-  state = {
-    timers: [],
-    currentTimerIndex: -1,
-    editTimerIndex: null,
-    isOn: false,
-    timeout: null,
-  };
+  constructor(props) {
+    super(props);
 
-  runTimer = () => {
-    const { timers, currentTimerIndex: index } = this.state;
-
-    if (timers.length === 0 || !timers[index]) return null;
-
-    const duration = timers[index].minutes * 60 + timers[index].seconds * 1000;
-
-    const timeout = setTimeout(() => {
-      if (timers[index]) {
-        this.runTimer();
-      }
-    }, duration);
-
-    this.setState({
-      timeout: timeout,
-      currentTimerIndex: index + 1,
-      isOn: true,
-    });
-  };
-
-  stopTimer = () => {
-    clearTimeout(this.state.timeout);
-    this.setState({ timeout: null, isOn: false, currentTimerIndex: 0 });
-  };
-
-  updateLocalTimersStore = data => {
-    store.set('timers', this.state.timers);
-  };
-
-  resetLocalTimersStore = () => {
-    store.remove('timers');
-  };
-
-  editTimer = index => {
-    this.setState({ editTimerIndex: index });
-  };
-
-  handleAddTimer = timer => {
-    if (!timer) return;
-
-    const timers = update(this.state.timers, { $push: [timer] });
-
-    this.setState({ timers }, () => {
-      store.set('timers', timers);
-    });
-  };
-
-  updateTimer = (newTimer, oldIndex) => {
-    if (!newTimer || oldIndex < 0 || oldIndex >=
-      this.state.timers.length) return;
-    const updatedTimersState = this.state.timers;
-    updatedTimersState[oldIndex] = newTimer;
-    this.setState({ timers: updatedTimersState, editTimerIndex: null });
-  };
-
-  removeTimer = index => {
-    const { timers } = this.state;
-    const updatedTimersState = update(timers, { $splice: [[index, 1]] });
-    this.setState({ timers: updatedTimersState },
-      () => this.updateLocalTimersStore());
-  };
-
-  handleResetAllTimers = () => {
-    if (this.state.timers.length === 0) return;
-    this.setState({ timers: [] });
-  };
-
-  handleSelectTimer = index => {
-    if (index < 0 || index >= this.state.timers.length) return;
-    this.setState({ currentTimerIndex: index });
-  };
-
-  render() {
-    const functions = {
-      runTimer: this.runTimer,
-      stopTimer: this.stopTimer,
-      editTimer: this.editTimer,
-      updateTimer: this.updateTimer,
-      removeTimer: this.removeTimer,
-
-      handleAddTimer: this.handleAddTimer,
-      handleSelectTimer: this.handleSelectTimer,
-      handleResetAllTimers: this.handleResetAllTimers,
+    this.state = {
+      socket: ws,
+      isSocketConnected: false,
+      currentDuration: null,
+      duration: 0,
     };
 
+    ws.onopen = () => this.setState({ isSocketConnected: true });
+
+    ws.onmessage = message => {
+      const parsedMessage = JSON.parse(message.data);
+      console.log(parsedMessage);
+
+      const { type, value } = parsedMessage;
+
+      switch (type) {
+        case 'data': {
+          console.log('Re-fetching timers data');
+          this.props.setTimers(JSON.parse(value));
+          break;
+        }
+        case 'start': {
+          if (!this.props.isCountdown) this.props.timerStart();
+          break;
+        }
+        default: {
+          console.error('Undefined type of message: ', type);
+        }
+      }
+    };
+
+    ws.onclose = () => this.setState({ isSocketConnected: false });
+  }
+
+  componentDidMount() {
+    this.props.fetchTimersRequest();
+  }
+
+  componentWillUnmount() {
+    this.socket.ws.close();
+  }
+
+  render() {
+    if (!this.state.isSocketConnected) return <span>Подключение...</span>;
+    if (this.state.socket.readyState !==
+      WebSocket.OPEN) return <span>Подключение...</span>;
     return (
       <Switch>
-        <Route exact path="/" render={props =>
-          <Panel {...props} {...this.state} {...functions} />}/>
-        <Route path="/view"
-               render={props => <View {...props} {...this.state} />}/>
+        <Route exact path="/" component={Panel}/>
+        <Route path="/view" component={View}/>
       </Switch>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  timers: state.timers.timers,
+  isCountdown: state.timers.isCountdown,
+});
+
+const mapDispatchToProps = {
+  fetchTimersRequest: fetchTimers,
+  setTimers,
+  timerStart,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
