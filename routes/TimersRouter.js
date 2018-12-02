@@ -10,6 +10,7 @@ router.delete('/:id', deleteTimer);
 router.delete('/', deleteAllTimers);
 router.post('/', addTimer);
 router.patch('/:id', updateTimer);
+router.post('/start', startTimer);
 
 function getTimers(request, response) {
   const timers = db.getAllTimers();
@@ -28,15 +29,12 @@ function getTimer(req, res) {
 
 function updateTimer(req, res) {
   const { id } = req.params;
-  const { timer } = req.body;
-  if (timer && !timer.title) {
-    res.sendStatus(404);
+  const timer = req.body;
+  if (db.getTimerById(id)) {
+    db.updateTimer(id, timer);
+    res.sendStatus(200);
+    WSS.triggerClientsToUpdateData();
   } else {
-    if (db.getTimerById(id)) {
-      db.updateTimer(timer);
-      res.sendStatus(200);
-      WSS.triggerClientsToUpdateData();
-    }
     res.sendStatus(404);
   }
 }
@@ -56,7 +54,6 @@ function addTimer(request, response) {
 
 function deleteTimer(request, response) {
   const { id } = request.params;
-  console.log(request.params);
   if (!id) {
     response.sendStatus(400);
   } else if (id) {
@@ -70,6 +67,11 @@ function deleteAllTimers(req, res) {
   db.deleteAllTimers();
   res.sendStatus(200);
   WSS.triggerClientsToUpdateData();
+}
+
+function startTimer(req, res) {
+  WSS.startTimerCountdown();
+  res.sendStatus(200);
 }
 
 module.exports = router;

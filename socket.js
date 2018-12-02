@@ -4,15 +4,22 @@ const DB = require('./db');
 class WebsocketServer {
   constructor(port) {
     this.server = new WebSocket.Server({ port });
-    this.server.on('connection', function connection(socket) {
-      socket.send('Connected succesfully');
-    });
   }
 
   triggerClientsToUpdateData() {
     this.server.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(DB.getAllTimers()));
+        client.send(JSON.stringify(
+          { type: 'data', value: JSON.stringify(DB.getAllTimers()) }));
+      }
+    });
+  }
+
+  startTimerCountdown() {
+    console.log('========= COUNTDOWN ===========');
+    this.server.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'start', value: '' }));
       }
     });
   }
