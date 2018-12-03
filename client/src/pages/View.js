@@ -57,7 +57,7 @@ class View extends React.Component {
     }
 
     return (
-      <div className="view" style={{ backgroudImage: `url(${imageUrl})` }}>
+      <div className="view" style={{ backgroundImage: `url(${imageUrl})` }}>
         <div className="view__title">{title}</div>
         <div className="view__timer">
           {durations.map((seconds, index) => {
