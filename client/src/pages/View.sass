@@ -6,3 +6,26 @@
 
 .danger
   animation: dangerous 1s infinite
+
+.text
+  display: block
+  color: #007cb0
+  text-transform: uppercase
+  text-align: center
+
+.view
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  height: 100vh
+  background-position: center
+  background-size: contain
+
+  &__title
+    @extend .text
+    font-size: 4em
+
+  &__timer
+    @extend .text
+    font-size: 7em

@@ -61,7 +61,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    this.socket.ws.close();
+    this.state.socket.ws.close();
   }
 
   render() {

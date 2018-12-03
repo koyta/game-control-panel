@@ -44,10 +44,10 @@ class View extends React.Component {
 
     if (!isCountdown) {
       return (
-        <Container img={imageUrl}>
-          <Title>Ожидание начала отсчёта</Title>
-          <Time>00:00</Time>
-        </Container>
+        <div className="view" style={{ backgroudImage: `url(${imageUrl})` }}>
+          <div className="view__title">Ожидание начала отсчёта</div>
+          <div className="view__timer">00:00</div>
+        </div>
       );
     }
 
@@ -57,46 +57,24 @@ class View extends React.Component {
     }
 
     return (
-      <Container img={imageUrl}>
-        <Title>{title}</Title>
-        <Time>
+      <div className="view" style={{ backgroudImage: `url(${imageUrl})` }}>
+        <div className="view__title">{title}</div>
+        <div className="view__timer">
           {durations.map((seconds, index) => {
             if (index === currentTimerIndex) {
-              return <Countdown key={index} date={Date.now() + seconds * 1000}
-                                renderer={this.renderer}>00:00</Countdown>;
+              return (
+                <Countdown key={index} date={Date.now() + seconds * 1000}
+                           renderer={this.renderer}>
+                  00:00
+                </Countdown>
+              );
             } else return null;
           })}
-        </Time>
-      </Container>
+        </div>
+      </div>
     );
   }
 }
-
-const Text = styled.div`
-  display: block;
-  font-family: 'Montserrat Bold', sans-serif;
-  color: ${blueColor};
-  text-transform: uppercase;
-  font-weight: bold;
-  text-align: center;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: ${props => `url(${imageUrl})`};
-  height: 100vh;
-`;
-
-const Title = styled(Text)`
-  font-size: 4em;
-`;
-
-const Time = styled(Text)`
-  font-size: 7em;
-`;
 
 const mapStateToProps = state => ({
   timers: state.timers.timers,
