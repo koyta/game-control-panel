@@ -1,23 +1,23 @@
 @font-face {
-  font-family: 'Roboto';
-  src: url('./src/assets/fonts/Roboto-Regular.ttf') format('opentype');
+  font-family: 'DINPro Regular';
+  src: url('./src/assets/fonts/DINPro-Regular.otf') format('opentype');
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Roboto Medium';
-  src: url('./src/assets/fonts/Roboto-Medium.ttf') format('opentype');
+  font-family: 'DINPro Medium';
+  src: url('./src/assets/fonts/DINPro-Medium.otf') format('opentype');
   font-weight: 600;
 }
 
 @font-face {
-  font-family: 'Roboto Bold';
-  src: url('./src/assets/fonts/Roboto-Bold.ttf') format('opentype');
+  font-family: 'DINPro Bold';
+  src: url('./src/assets/fonts/DINPro-Bold.otf') format('opentype');
   font-weight: 700;
 }
 
 body {
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: 'DINPro Regular', Arial, sans-serif;
   font-weight: 400;
   height: 100%;
   width: 100%;
@@ -30,7 +30,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Roboto Medium', Arial, sans-serif;
+  font-family: 'DINPro Bold', Arial, sans-serif;
   margin: 0;
   text-align: center;
 }

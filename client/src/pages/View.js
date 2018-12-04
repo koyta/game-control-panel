@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import Countdown from 'react-countdown-now';
 import { currentTimerSet } from '../modules/actions/timers';
 import { blueColor } from '../utils/color';
+import BackgroundImage from '../assets/images/background.jpg';
 
-const imageUrl = '';
+const imageUrl = BackgroundImage;
 
 class View extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class View extends React.Component {
 
     if (!isCountdown) {
       return (
-        <div className="view" style={{ backgroudImage: `url(${imageUrl})` }}>
+        <div className="view" style={{ backgroundImage: `url(${imageUrl})` }}>
           <div className="view__title">Ожидание начала отсчёта</div>
           <div className="view__timer">00:00</div>
         </div>
@@ -58,18 +59,20 @@ class View extends React.Component {
 
     return (
       <div className="view" style={{ backgroundImage: `url(${imageUrl})` }}>
-        <div className="view__title">{title}</div>
-        <div className="view__timer">
-          {durations.map((seconds, index) => {
-            if (index === currentTimerIndex) {
-              return (
-                <Countdown key={index} date={Date.now() + seconds * 1000}
-                           renderer={this.renderer}>
-                  00:00
-                </Countdown>
-              );
-            } else return null;
-          })}
+        <div className="view__text-container">
+          <div className="view__title">{title}</div>
+          <div className="view__timer">
+            {durations.map((seconds, index) => {
+              if (index === currentTimerIndex) {
+                return (
+                  <Countdown key={index} date={Date.now() + seconds * 1000}
+                             renderer={this.renderer}>
+                    00:00
+                  </Countdown>
+                );
+              } else return null;
+            })}
+          </div>
         </div>
       </div>
     );

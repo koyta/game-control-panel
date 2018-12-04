@@ -20,12 +20,18 @@
   justify-content: center
   height: 100vh
   background-position: center
-  background-size: contain
+  background-size: cover
+  background-repeat: no-repeat
+
+  &__text-container
+    max-width: 1000px
 
   &__title
     @extend .text
     font-size: 4em
+    margin-bottom: 4vh
 
   &__timer
     @extend .text
-    font-size: 7em
+    font-size: 14em
+    line-height: 1
