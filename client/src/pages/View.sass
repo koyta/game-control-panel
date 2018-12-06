@@ -14,24 +14,44 @@
   text-align: center
 
 .view
+  position: relative
   display: flex
   flex-direction: column
   align-items: center
   justify-content: center
   height: 100vh
+  background-image: url("../assets/images/background.jpg")
   background-position: center
   background-size: cover
   background-repeat: no-repeat
+  transition: background 0.3s
+
+  &__preview
+    position: absolute
+    top: 0
+    left: 0
+    height: 100vh
+    width: 100vw
+    background-image: url("../assets/images/preview.jpg")
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center
+    opacity: 1
+    transition: opacity 0.3s
+
+  &_active
+    .view__preview
+    opacity: 0
 
   &__text-container
     max-width: 1000px
 
   &__title
     @extend .text
-    font-size: 4em
+    font-size: 6rem
     margin-bottom: 4vh
 
   &__timer
     @extend .text
-    font-size: 14em
+    font-size: 25rem
     line-height: 1

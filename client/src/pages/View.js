@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import Countdown from 'react-countdown-now';
+import classNames from 'classnames';
 import { currentTimerSet } from '../modules/actions/timers';
-import { blueColor } from '../utils/color';
 import BackgroundImage from '../assets/images/background.jpg';
+import PreviewImage from '../assets/images/preview.jpg';
 
-const imageUrl = BackgroundImage;
+const countdownImage = BackgroundImage;
+const previewImage = PreviewImage;
 
 class View extends React.Component {
   constructor(props) {
@@ -20,8 +21,13 @@ class View extends React.Component {
 
   renderer = ({ minutes, seconds, completed }) => {
     if (completed) {
-      this.props.currentTimerSet(this.props.currentTimerIndex + 1);
-      return <span>00:00</span>;
+      if (!this.isLastTimer()) this.props.currentTimerSet(
+        this.props.currentTimerIndex + 1);
+      return (
+        <div className="view__timer" style={{ color: 'red' }}>
+          00:00
+        </div>
+      );
     } else {
       const isTimerEnding = Number(minutes) === 0 && Number(seconds) < 31;
       return (
@@ -43,36 +49,32 @@ class View extends React.Component {
 
     if (!timers.length) return null;
 
-    if (!isCountdown) {
-      return (
-        <div className="view" style={{ backgroundImage: `url(${imageUrl})` }}>
-          <div className="view__title">Ожидание начала отсчёта</div>
-          <div className="view__timer">00:00</div>
-        </div>
-      );
-    }
-
     let title = '';
     if (timers[currentTimerIndex]) {
       title = timers[currentTimerIndex].title;
     }
 
     return (
-      <div className="view" style={{ backgroundImage: `url(${imageUrl})` }}>
+      <div className={classNames('view', { ['view_active']: isCountdown })}>
+        <div className="view__preview"/>
         <div className="view__text-container">
-          <div className="view__title">{title}</div>
-          <div className="view__timer">
-            {durations.map((seconds, index) => {
-              if (index === currentTimerIndex) {
-                return (
-                  <Countdown key={index} date={Date.now() + seconds * 1000}
-                             renderer={this.renderer}>
-                    00:00
-                  </Countdown>
-                );
-              } else return null;
-            })}
-          </div>
+          {isCountdown && (
+            <Fragment>
+              <div className="view__title">{title}</div>
+              <div className="view__timer">
+                {durations.map((seconds, index) => {
+                  if (index === currentTimerIndex || this.isLastTimer()) {
+                    return (
+                      <Countdown key={index} date={Date.now() + seconds * 1000}
+                                 renderer={this.renderer}>
+                        00:00
+                      </Countdown>
+                    );
+                  }
+                })}
+              </div>
+            </Fragment>
+          )}
         </div>
       </div>
     );
