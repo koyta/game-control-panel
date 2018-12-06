@@ -63,7 +63,7 @@ class View extends React.Component {
               <div className="view__title">{title}</div>
               <div className="view__timer">
                 {durations.map((seconds, index) => {
-                  if (index === currentTimerIndex || this.isLastTimer()) {
+                  if (index === currentTimerIndex) {
                     return (
                       <Countdown key={index} date={Date.now() + seconds * 1000}
                                  renderer={this.renderer}>
