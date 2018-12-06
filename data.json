@@ -1,3 +1,10 @@
 {
-  "timers": []
+  "timers": [
+    {
+      "id": "jqrjlBZ1y",
+      "title": "Test",
+      "minutes": "0",
+      "seconds": "5"
+    }
+  ]
 }
